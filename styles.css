@@ -1,26 +1,44 @@
 html {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-.loading-container {
+html, body {
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: white;
     font-family: 'Arial', sans-serif;
-    text-align: center;
-    font-size: 1.5em;
+    color: white;
 }
- 
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.loading-container, .error-container, #data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.error-container, #data {
+    max-width: 600px;
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    margin: 20px 0;
+    border-radius: 16px;
+}
+
 .spinner {
     border: 16px solid #f3f3f3;
     border-top: 16px solid #3498db;
@@ -37,65 +55,28 @@ html {
 
 .error-container {
     background-color: #ff4d4d;
-    color: white;
-    padding: 20px 30px;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-    font-family: 'Arial', sans-serif;
-    animation: slideUp 0.5s ease-out;
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(50px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
 }
 
 #data {
     background-color: #677b6e;
     color: #000000;
-    padding: 0px 30px;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); 
-    text-align: center;
-    font-family: 'Arial', sans-serif;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    animation: slideUp 0.5s ease-out;
 }
 
-#data p {
+#data p, #data ul, #data h2 {
     text-align: left;
     width: 100%;
-    margin-bottom: 5px;
+    margin: 5px 0;
 }
 
 #data ul {
-    text-align: left;
-    width: 100%;
-    margin-top: 0;
     padding-left: 20px;
-    margin-left: 20px;
-}
-
-#data h2 {
-    margin: 5px 0;
 }
 
 .map-container {
     width: 100%;
     padding-top: 56.25%;
     position: relative;
+    margin: 20px 0;
 }
 
 .map-container iframe {
@@ -108,27 +89,9 @@ html {
     border-radius: 16px;
 }
 
-@media (max-width: 768px) {
-    .error-container, #data {
-        padding: 15px 20px;
-        max-width: 90%;
-        width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .error-container, #data {
-        padding: 10px 15px;
-        max-width: 100%;
-        width: 100%;
-    }
-}
-
 footer {
-    color: white;
-    width: 100%;
-    bottom: 0;
-    animation: slideUp 0.5s ease-out;
+    text-align: center;
+    margin-top: auto;
 }
 
 footer a {
@@ -138,4 +101,16 @@ footer a {
 
 footer a:hover {
     text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .loading-container, .error-container, #data {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .loading-container, .error-container, #data {
+        padding: 10px;
+    }
 }
