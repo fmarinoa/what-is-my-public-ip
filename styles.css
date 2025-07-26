@@ -1,8 +1,11 @@
 html {
-    background-color: rgba(0, 0, 0, 0.8);
+    /* Cambia el fondo a un gradiente moderno */
+    background: linear-gradient(135deg, #232526 0%, #95b4d2 100%);
+    min-height: 100vh;
 }
 
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
     display: flex;
@@ -10,70 +13,136 @@ html, body {
     align-items: center;
     justify-content: center;
     font-family: 'Arial', sans-serif;
-    color: white;
 }
 
 .container {
-    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
     box-sizing: border-box;
+    gap: 20px;
 }
 
-.loading-container, .error-container, #data {
+.loading-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
+    min-height: 180px;
+    min-width: 320px;
+    box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.22), 0 3px 16px 0 rgba(0, 0, 0, 0.13);
+    transform: translateY(-2px) scale(1.01);
+    border-radius: 16px;
+    background-color: #f9ec33;
+    color: #fff;
 }
 
-.error-container, #data {
+.spinner {
+    border: 8px solid #e0eafc;
+    border-top: 8px solid #ed9a9a;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    animation: spin 1.1s linear infinite;
+    background: transparent;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 12px rgba(67, 198, 172, 0.18);
+    display: inline-block;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.error-container,
+#data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
     max-width: 600px;
     width: 100%;
     padding: 20px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
     margin: 20px 0;
     border-radius: 16px;
+    background: none;
 }
 
-.spinner {
-    border: 16px solid #f3f3f3;
-    border-top: 16px solid #3498db;
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spin 2s linear infinite;
+.card {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 20px auto;
+    padding: 24px 20px;
+    border-radius: 18px;
+    transition: box-shadow 0.2s, transform 0.2s;
+    border: 1.5px solid #d1e3f8;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.card:hover {
+    box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.22), 0 3px 16px 0 rgba(0, 0, 0, 0.13);
+    transform: translateY(-2px) scale(1.01);
 }
 
-.error-container {
-    background-color: #ff4d4d;
+.card-title {
+    background: linear-gradient(135deg, #f8ffae 0%, #4349c6 100%);
+    border-left: 6px solid #efbb2a;
+}
+
+.card-ip {
+    background: linear-gradient(135deg, #f8ffae 0%, #43c6ac 100%);
+    border-left: 6px solid #43c6ac;
+}
+
+.card-location {
+    background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+    border-left: 6px solid #a6c1ee;
+}
+
+.card-time {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-left: 6px solid #c3cfe2;
+}
+
+.card-risk {
+    background: linear-gradient(135deg, #f9d423 0%, #ff4e50 100%);
+    border-left: 6px solid #ff4e50;
+}
+
+.card-weather {
+    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+    border-left: 6px solid #015df0;
 }
 
 #data {
-    background-color: #677b6e;
-    color: #000000;
+    background: none;
+    color: inherit;
+    box-shadow: none;
+    padding: 0;
 }
 
-#data p, #data ul, #data h2 {
+#data p,
+#data ul,
+#data h3 {
     text-align: left;
     width: 100%;
     margin: 5px 0;
 }
 
 #data ul {
-    text-align: left;
-    width: 100%;
-    margin-top: 0;
-    padding-left: 20px;
-    margin-left: 20px;
+    padding-left: 24px;
+    margin-left: 0;
 }
 
 .map-container {
@@ -81,6 +150,9 @@ html, body {
     padding-top: 56.25%;
     position: relative;
     margin: 20px 0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(67, 198, 172, 0.15);
 }
 
 .map-container iframe {
@@ -93,28 +165,45 @@ html, body {
     border-radius: 16px;
 }
 
+.error-container {
+    box-shadow: 0 8px 20px rgba(223, 71, 71, 0.5);
+    border-radius: 16px;
+    background-color: #8c1717;
+    color: #fff;
+    text-align: center;
+}
+
 footer {
     text-align: center;
     margin-top: auto;
+    margin-bottom: 16px;
+    color: #ffffff;
 }
 
 footer a {
     color: #3498db;
     text-decoration: none;
-}
-
-footer a:hover {
-    text-decoration: underline;
+    font-weight: bold;
 }
 
 @media (max-width: 768px) {
-    .loading-container, .error-container, #data {
-        padding: 15px;
+    .card {
+        padding: 16px 8px;
+    }
+
+    #data h2 {
+        font-size: 1.1em;
+        padding: 8px 0;
     }
 }
 
 @media (max-width: 480px) {
-    .loading-container, .error-container, #data {
-        padding: 10px;
+    .card {
+        padding: 10px 4px;
+    }
+
+    #data h2 {
+        font-size: 1em;
+        padding: 6px 0;
     }
 }

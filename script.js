@@ -5,7 +5,7 @@ function showError(error) {
     const errorMessage = document.getElementById("error-message");
 
     errorMessage.innerHTML = `
-        <p>⚠️Ha ocurrido un error al procesar la información:</p>
+        <p>⚠️ Ha ocurrido un error al procesar la información:</p>
         <p>${error}</p>
         <p>Vuelva a intentar en unos minutos...</p>
     `;
@@ -13,62 +13,109 @@ function showError(error) {
     errorDiv.style.display = "flex";
 }
 
-fetch(API_URL)
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById('loading').style.display = 'none';
+async function main() {
+    try {
+        const loadingDiv = document.getElementById('loading');
+        const divData = document.getElementById('data');
 
-        const ip = data.ip;
-        const asn = data.isp.asn;
-        const org = data.isp.org;
-        const country = data.location.country;
-        const countryCode = data.location.country_code;
-        const city = data.location.city;
-        const state = data.location.state;
-        const zipcode = data.location.zipcode;
-        const latitude = data.location.latitude;
-        const longitude = data.location.longitude;
-        const timezone = data.location.timezone;
-        const localtime = data.location.localtime;
-        const isMobile = data.risk.is_mobile;
-        const isVpn = data.risk.is_vpn;
-        const isTor = data.risk.is_tor;
-        const isProxy = data.risk.is_proxy;
-        const isDatacenter = data.risk.is_datacenter;
-        const riskScore = data.risk.risk_score;
+        // Obtener datos de IP
+        const response = await fetch(API_URL);
+        const data = await response.json();
+
+        const {
+            ip,
+            isp: { asn, org },
+            location: {
+                country, country_code: countryCode, city, state, zipcode,
+                latitude, longitude, timezone, localtime
+            },
+            risk: {
+                is_mobile: isMobile, is_vpn: isVpn, is_tor: isTor,
+                is_proxy: isProxy, is_datacenter: isDatacenter, risk_score: riskScore
+            }
+        } = data;
+
         const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}&hl=es&z=14&output=embed`;
 
-        const divData = document.getElementById('data');
-        divData.insertAdjacentHTML('beforeend', `
-            <p><strong>Dirección IP:</strong> ${ip}</p>
-            <p><strong>ASN:</strong> ${asn}</p>
-            <p><strong>Proveedor de Internet:</strong> ${org}</p>
-            <p><strong>Ubicación:</strong> ${country} (${countryCode}), ${state}, ${city}</p>
-            <p><strong>Coordenadas:</strong></p>
-            <ul>
-                <li>Latitud: ${latitude}</li>
-                <li>Longitud: ${longitude}</li>
-            </ul>
-            <div class="map-container">
-                <iframe src="${googleMapsUrl}" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        divData.innerHTML += `
+            <div class="card card-ip">
+                <p><strong>Dirección IP:</strong> ${ip}</p>
+                <p><strong>ASN:</strong> ${asn}</p>
+                <p><strong>Proveedor de Internet:</strong> ${org}</p>
             </div>
-            ${zipcode ? `<p><strong>Código Postal:</strong> ${zipcode}</p>` : ''}
-            <p><strong>Zona Horaria:</strong> ${timezone}</p>
-            <p><strong>Hora Local:</strong> ${localtime}</p>
-            <p><strong>Riesgos:</strong></p>
-            <ul>
-                <li>Móvil: ${isMobile ? 'Sí' : 'No'}</li>
-                <li>VPN: ${isVpn ? 'Sí' : 'No'}</li>
-                <li>Tor: ${isTor ? 'Sí' : 'No'}</li>
-                <li>Proxy: ${isProxy ? 'Sí' : 'No'}</li>
-                <li>Centro de Datos: ${isDatacenter ? 'Sí' : 'No'}</li>
-                <li>Puntuación de Riesgo: ${riskScore}</li>
-            </ul>
-        `);
+            <div class="card card-location">
+                <p><strong>Ubicación:</strong> ${country} (${countryCode}), ${state}, ${city}</p>
+                <p><strong>Coordenadas:</strong></p>
+                <ul>
+                    <li>Latitud: ${latitude}</li>
+                    <li>Longitud: ${longitude}</li>
+                </ul>
+                <div class="map-container">
+                    <iframe src="${googleMapsUrl}" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                ${zipcode ? `<p><strong>Código Postal:</strong> ${zipcode}</p>` : ''}
+            </div>
+            <div class="card card-time">
+                <p><strong>Zona Horaria:</strong> ${timezone}</p>
+                <p><strong>Hora Local:</strong> ${localtime}</p>
+            </div>
+            <div class="card card-risk">
+                <p><strong>Riesgos:</strong></p>
+                <ul>
+                    <li>Móvil: ${isMobile ? 'Sí' : 'No'}</li>
+                    <li>VPN: ${isVpn ? 'Sí' : 'No'}</li>
+                    <li>Tor: ${isTor ? 'Sí' : 'No'}</li>
+                    <li>Proxy: ${isProxy ? 'Sí' : 'No'}</li>
+                    <li>Centro de Datos: ${isDatacenter ? 'Sí' : 'No'}</li>
+                    <li>Puntuación de Riesgo: ${riskScore}</li>
+                </ul>
+            </div>
+        `;
 
-        divData.style.display = "flex";
-    })
-    .catch(error => {
+        // Obtener clima
+        const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation,apparent_temperature,relative_humidity_2m&forecast_days=1`;
+        const weatherResponse = await fetch(weatherUrl);
+        const weatherData = await weatherResponse.json();
+
+        const now = new Date();
+        const currentUTCHour = now.toISOString().slice(0, 13) + ":00";
+        const index = weatherData.hourly.time.findIndex(t => t === currentUTCHour);
+
+        let weatherHtml = '';
+        if (index === -1) {
+            weatherHtml = `<p>No se encontró el clima para la hora actual.</p>`;
+        } else {
+            const temperature = weatherData.hourly.temperature_2m[index];
+            const apparentTemperature = weatherData.hourly.apparent_temperature[index];
+            const precipitation = weatherData.hourly.precipitation[index];
+            const humidity = weatherData.hourly.relative_humidity_2m[index];
+
+            const localTimeFriendly = now.toLocaleString('es-PE', {
+                dateStyle: 'long',
+                timeStyle: 'short',
+                hour12: true
+            });
+
+            weatherHtml = `
+                <h3>Clima Actual:</h3>
+                <ul>
+                <li>Hora local: ${localTimeFriendly}</li>
+                <li>Temperatura: ${temperature} °C</li>
+                <li>Sensación térmica: ${apparentTemperature} °C</li>
+                <li>Precipitación: ${precipitation} mm</li>
+                <li>Humedad: ${humidity} %</li>
+                </ul>
+            `;
+        }
+
+        divData.innerHTML += `<div class="card card-weather">${weatherHtml}</div>`;
+
+        loadingDiv.style.display = 'none';
+        divData.style.display = "block";
+    } catch (error) {
         document.getElementById('loading').style.display = 'none';
         showError(`Error: ${error.message}`);
-    });
+    }
+}
+
+main();

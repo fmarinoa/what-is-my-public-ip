@@ -4,15 +4,15 @@ Este proyecto muestra información pública sobre tu dirección IP utilizando la
 
 ## Descripción
 
-La aplicación obtiene y muestra información detallada sobre tu dirección IP pública, incluyendo ubicación, proveedor de internet, riesgos asociados y más.
+La web obtiene y muestra información detallada sobre tu dirección IP pública, clima, incluyendo ubicación, proveedor de internet, riesgos asociados y más.
 
 ## Tecnologías Utilizadas
 
 - HTML
 - CSS
 - JavaScript
-- [Axios](https://axios-http.com/)
 - [ipquery.io API](https://ipquery.io/)
+- [open-meteo API](https://open-meteo.com/)
 
 ## Instalación
 
