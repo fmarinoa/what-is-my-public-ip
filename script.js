@@ -13,11 +13,10 @@ function showError(error) {
     errorDiv.style.display = "flex";
 }
 
-axios.get(API_URL)
-    .then(response => {
+fetch(API_URL)
+    .then(response => response.json())
+    .then(data => {
         document.getElementById('loading').style.display = 'none';
-
-        const data = response.data;
 
         const ip = data.ip;
         const asn = data.isp.asn;
@@ -38,14 +37,14 @@ axios.get(API_URL)
         const isDatacenter = data.risk.is_datacenter;
         const riskScore = data.risk.risk_score;
         const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}&hl=es&z=14&output=embed`;
-        
+
         const divData = document.getElementById('data');
         divData.insertAdjacentHTML('beforeend', `
             <p><strong>Dirección IP:</strong> ${ip}</p>
             <p><strong>ASN:</strong> ${asn}</p>
             <p><strong>Proveedor de Internet:</strong> ${org}</p>
             <p><strong>Ubicación:</strong> ${country} (${countryCode}), ${state}, ${city}</p>
-            <P><strong>Coordenadas:</strong></p>
+            <p><strong>Coordenadas:</strong></p>
             <ul>
                 <li>Latitud: ${latitude}</li>
                 <li>Longitud: ${longitude}</li>
@@ -65,8 +64,8 @@ axios.get(API_URL)
                 <li>Centro de Datos: ${isDatacenter ? 'Sí' : 'No'}</li>
                 <li>Puntuación de Riesgo: ${riskScore}</li>
             </ul>
-            
         `);
+
         divData.style.display = "flex";
     })
     .catch(error => {
