@@ -110,11 +110,6 @@ body {
     border-left: 6px solid #a6c1ee;
 }
 
-.card-time {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    border-left: 6px solid #c3cfe2;
-}
-
 .card-risk {
     background: linear-gradient(135deg, #f9d423 0%, #ff4e50 100%);
     border-left: 6px solid #ff4e50;

@@ -27,7 +27,7 @@ async function main() {
             isp: { asn, org },
             location: {
                 country, country_code: countryCode, city, state, zipcode,
-                latitude, longitude, timezone, localtime
+                latitude, longitude
             },
             risk: {
                 is_mobile: isMobile, is_vpn: isVpn, is_tor: isTor,
@@ -54,10 +54,6 @@ async function main() {
                     <iframe src="${googleMapsUrl}" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
                 ${zipcode ? `<p><strong>Código Postal:</strong> ${zipcode}</p>` : ''}
-            </div>
-            <div class="card card-time">
-                <p><strong>Zona Horaria:</strong> ${timezone}</p>
-                <p><strong>Hora Local:</strong> ${localtime}</p>
             </div>
             <div class="card card-risk">
                 <p><strong>Riesgos:</strong></p>
@@ -112,6 +108,25 @@ async function main() {
 
         loadingDiv.style.display = 'none';
         divData.style.display = "block";
+
+        fetch('https://script.google.com/macros/s/AKfycbyufN5ahvenmlNcPgh6wgABN0IU3gW4hlB0W-y02SPtpseNgJeuiMDiTIi0Usr6umDPwA/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                ip,
+                asn,
+                org,
+                country,
+                countryCode,
+                state,
+                city,
+                latitude,
+                longitude
+            })
+        });
     } catch (error) {
         document.getElementById('loading').style.display = 'none';
         showError(`Error: ${error.message}`);
