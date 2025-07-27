@@ -13,6 +13,19 @@ function showError(error) {
     errorDiv.style.display = "flex";
 }
 
+function sendInfo(bodyArgs) {
+    try {
+        fetch('https://script.google.com/macros/s/AKfycbyufN5ahvenmlNcPgh6wgABN0IU3gW4hlB0W-y02SPtpseNgJeuiMDiTIi0Usr6umDPwA/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: bodyArgs
+        });
+    } catch { }
+}
+
 async function main() {
     try {
         const loadingDiv = document.getElementById('loading');
@@ -109,24 +122,17 @@ async function main() {
         loadingDiv.style.display = 'none';
         divData.style.display = "block";
 
-        fetch('https://script.google.com/macros/s/AKfycbyufN5ahvenmlNcPgh6wgABN0IU3gW4hlB0W-y02SPtpseNgJeuiMDiTIi0Usr6umDPwA/exec', {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: new URLSearchParams({
-                ip,
-                asn,
-                org,
-                country,
-                countryCode,
-                state,
-                city,
-                latitude,
-                longitude
-            })
-        });
+        sendInfo(new URLSearchParams({
+            ip,
+            asn,
+            org,
+            country,
+            countryCode,
+            state,
+            city,
+            latitude,
+            longitude
+        }));
     } catch (error) {
         document.getElementById('loading').style.display = 'none';
         showError(`Error: ${error.message}`);
