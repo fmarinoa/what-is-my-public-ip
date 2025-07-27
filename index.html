@@ -5,8 +5,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>¿Cuál es mi IP pública? | What is My Public IP</title>
-    <meta name="description" content="Consulta tu dirección IP pública, ubicación aproximada, proveedor de internet y el clima actual de tu zona. Servicio rápido, seguro y gratuito.">
-    <meta name="keywords" content="IP pública, cuál es mi IP, dirección IP, saber mi IP, IP address, geolocalización IP, clima por IP, proveedor de internet">
+    <meta name="description"
+        content="Consulta tu dirección IP pública, ubicación aproximada, proveedor de internet y el clima actual de tu zona. Servicio rápido, seguro y gratuito.">
+    <meta name="keywords"
+        content="IP pública, cuál es mi IP, dirección IP, saber mi IP, IP address, geolocalización IP, clima por IP, proveedor de internet">
     <meta property="og:title" content="¿Cuál es mi IP pública?">
     <meta property="og:description" content="Consulta tu dirección IP pública, ubicación y clima actual.">
     <meta property="og:type" content="website">
@@ -33,25 +35,31 @@
 
 <body>
     <div class="container">
+        <div class="card card-title">
+            <h1>¿Cuál es mi IP pública?</h1>
+            <p>
+                Consulta tu dirección IP pública, ubicación aproximada, proveedor de internet y el clima actual de
+                tu zona. Servicio rápido, seguro y gratuito.
+            </p>
+        </div>
+
         <div id="loading" class="card loading-container">
             <div class="spinner"></div>
             <h2>Cargando...</h2>
         </div>
 
-        <div id="data" style="display: none">
-            <div class="card card-title">
-                <h2>Tu dirección IP pública es:</h1>
-            </div>
-        </div>
+        <div id="data" style="display: none"></div>
 
         <div id="error" class="error-container" style="display: none">
             <span id="error-message"></span>
         </div>
     </div>
     <footer>
-        <p>Desarrollado por<a href="https://github.com/fmarinoa" target="_blank"> fmarinoa</a> :)</p>
+        <p>Desarrollado por <a href="https://github.com/fmarinoa" target="_blank" rel="noopener">fmarinoa</a> | Consulta
+            tu IP pública gratis</p>
     </footer>
 
     <script src="script.js"></script>
 </body>
+
 </html>

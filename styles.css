@@ -35,12 +35,12 @@ body {
     transform: translateY(-2px) scale(1.01);
     border-radius: 16px;
     background-color: #f9ec33;
-    color: #fff;
+    color: #000000;
 }
 
 .spinner {
-    border: 8px solid #e0eafc;
-    border-top: 8px solid #ed9a9a;
+    border: 8px solid #f3fdbc;
+    border-top: 8px solid #cbba00;
     border-radius: 50%;
     width: 64px;
     height: 64px;
@@ -98,6 +98,7 @@ body {
 .card-title {
     background: linear-gradient(135deg, #f8ffae 0%, #4349c6 100%);
     border-left: 6px solid #efbb2a;
+    margin-top: 2rem;
 }
 
 .card-ip {
